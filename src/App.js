@@ -1,6 +1,6 @@
 import React from "react";
 import './App.css';
-
+import Todolist from "./components/todolist"
 function App() {
   const [desc, setDesc] = React.useState("");
   const [date, SetDate] = React.useState("");
@@ -18,33 +18,21 @@ function App() {
     setTodos([...todos, {desc: desc, date: date}]);
   }
 
+  const selfDelete = (index) => {
+    todos.splice(index, 1);
+    setTodos([...todos]);      
+  }
+
   return (
     <div className="App">
       <form onSubmit={addTodo}>
         <label>To Do:</label>
-        <input type="text" value={desc} onChange={inputChanged} />
+        <input type="text" name="desc" value={desc} onChange={inputChanged} />
         <label>Date:</label>
-        <input type="text" value={date} onChange={inputChange} />
+        <input type="text" name="date" value={date} onChange={inputChange} />
         <input type="submit" value="Add"/>
       </form>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            todos.map((todo, index) => 
-            <tr key={index}>
-              <td>{todo.date}</td>
-              <td>{todo.desc}</td>
-            </tr>
-            )
-          }
-        </tbody>
-      </table>
+      <Todolist todos={todos} selfDelete={selfDelete} />
     </div>
   );
 }
